@@ -1,0 +1,6 @@
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# Generated datasets
+data/cleaned_weather_data.csv
