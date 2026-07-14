@@ -1,0 +1,189 @@
+/* ==============================
+   Background
+============================== */
+
+.stApp{
+    background-color:#0F172A;
+    color:#F8FAFC;
+}
+
+
+/* ==============================
+   Sidebar
+============================== */
+
+section[data-testid="stSidebar"]{
+    background:#111827;
+    border-right:2px solid #1E293B;
+}
+
+
+/* ==============================
+   Main Title
+============================== */
+
+.main-title{
+    font-size:42px;
+    font-weight:700;
+    color:white;
+    margin-bottom:5px;
+}
+
+.sub-title{
+    color:#94A3B8;
+    font-size:18px;
+    margin-bottom:30px;
+}
+
+
+/* ==============================
+   KPI Cards
+============================== */
+
+.metric-card{
+
+    background:#1E293B;
+
+    border-radius:15px;
+
+    padding:20px;
+
+    box-shadow:0px 4px 15px rgba(0,0,0,.35);
+
+    text-align:center;
+
+    transition:.3s;
+
+}
+
+.metric-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0px 8px 25px rgba(56,189,248,.30);
+
+}
+
+.metric-title{
+
+    font-size:18px;
+
+    color:#CBD5E1;
+
+}
+
+.metric-value{
+
+    font-size:34px;
+
+    color:#38BDF8;
+
+    font-weight:bold;
+
+}
+
+
+/* ==============================
+   Chart Container
+============================== */
+
+.chart-card{
+
+    background:#1E293B;
+
+    padding:20px;
+
+    border-radius:15px;
+
+    box-shadow:0px 4px 15px rgba(0,0,0,.35);
+
+}
+
+
+/* ==============================
+   Buttons
+============================== */
+
+.stButton>button{
+
+    background:#0284C7;
+
+    color:white;
+
+    border:none;
+
+    border-radius:10px;
+
+    padding:10px 25px;
+
+}
+
+.stButton>button:hover{
+
+    background:#0369A1;
+
+}
+
+
+/* ==============================
+   Dataframe
+============================== */
+
+[data-testid="stDataFrame"]{
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+}
+
+
+/* ==============================
+   Metric Widget
+============================== */
+
+[data-testid="metric-container"]{
+
+    background:#1E293B;
+
+    border-radius:12px;
+
+    padding:15px;
+
+}
+
+
+/* ==============================
+   Selectbox
+============================== */
+
+.stSelectbox{
+
+    margin-bottom:15px;
+
+}
+
+
+/* ==============================
+   Scrollbar
+============================== */
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#475569;
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#0F172A;
+
+}
