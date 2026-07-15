@@ -4,3 +4,10 @@
 
 # Generated datasets
 data/cleaned_weather_data.csv
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.vscode/
+.streamlit/
