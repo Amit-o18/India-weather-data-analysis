@@ -3,11 +3,16 @@ import pandas as pd
 
 def normalize_state_names(df):
 
-    mapping = {
-        "Odisha": "Orissa",
-    }
-
     df = df.copy()
-    df["state"] = df["state"].replace(mapping)
+
+    df["state_name"] = df["state_name"].replace({
+
+        "Andaman and Nicobar Islands": "Andaman and Nicobar",
+
+        "Odisha": "Orissa",
+
+        "Uttarakhand": "Uttaranchal"
+
+    })
 
     return df
