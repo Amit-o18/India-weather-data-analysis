@@ -45,8 +45,8 @@ def show(filtered_df):
         .sort_values("rainfall", ascending=False)
         .head(10)
     )
-    top10["Rainfall_mm"] = (top10["rainfall"] * 100).round(1)
-    
+    top10["Rainfall_mm"] = top10["rainfall"].round(2)
+
 
     fig = px.bar(
     top10,
@@ -94,7 +94,8 @@ def show(filtered_df):
     .head(10)
     )
     
-    bottom10["Rainfall_mm"] = (bottom10["rainfall"] * 100).round(1)
+    bottom10["Rainfall_mm"] = bottom10["rainfall"].round(2)
+    
     fig = px.bar(
     bottom10,
     x="rainfall",
@@ -148,7 +149,7 @@ def show(filtered_df):
     )
 
     monthly_rainfall["rainfall"] = (
-        monthly_rainfall["rainfall"] * 100
+    monthly_rainfall["rainfall"]
     ).round(1)
 
     fig = px.line(
@@ -189,10 +190,7 @@ def show(filtered_df):
         
     )
 
-    season_summary["rainfall"] = (
-        season_summary["rainfall"] * 100
-    ).round(1)
-    
+    season_summary["rainfall"] = season_summary["rainfall"].round(1)
 
     season_order = [
     "Monsoon",
@@ -235,3 +233,114 @@ def show(filtered_df):
     )
 
     st.plotly_chart(fig, use_container_width=True)
+
+    st.subheader("🌧 Year-wise Average Rainfall Trend")
+
+    year_summary = (
+    filtered_df
+    .groupby("year", as_index=False)
+    .agg(rainfall=("rainfall", "mean"))
+    )
+
+    
+    year_summary["rainfall"] = year_summary["rainfall"].round(1)
+    year_summary = year_summary[year_summary["year"] != 2025]
+
+    fig=px.line(
+    year_summary,
+    x="year",
+    y="rainfall",
+    markers=True,
+    labels={
+        'year':'Year',
+        'rainfall':'Average Rainfall (mm)'
+    }
+    )
+    
+    fig.update_traces(
+    hovertemplate=
+    "<b>Year: %{x}</b><br>"
+    "Average Rainfall: %{y:.1f} mm"
+    "<extra></extra>"
+    )
+
+    fig.update_traces(
+    line=dict(width=3),
+    marker=dict(size=7)
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+    st.info("Data for 2025 has been excluded from the yearly rainfall trend analysis because it contains significantly fewer observations (16,773 records) compared to previous years (approximately 148,000 records per year). Including this incomplete year could produce misleading yearly averages and distort the trend.")
+
+
+    st.subheader("🌧 Rainfall Distribution")
+
+    fig = px.histogram(
+        filtered_df,
+        x="rainfall",
+        nbins=60,
+        labels={
+            "rainfall": "Rainfall (mm)",
+            "count": "Number of Records"
+        }
+    )
+
+    
+    fig.update_layout(
+        xaxis_title="Rainfall (mm)",
+        yaxis_title="Number of Records",
+        bargap=0.05
+    )
+
+    fig.update_traces(
+        hovertemplate=
+        "<b>Rainfall Range</b><br>"
+        "%{x:.1f} mm<br>"
+        "Records: %{y:,}<extra></extra>"
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+    
+    
+    wettest_state = state_summary.loc[state_summary["rainfall"].idxmax()]
+    driest_state = state_summary.loc[state_summary["rainfall"].idxmin()]
+
+    wettest_month = monthly_rainfall.loc[monthly_rainfall["rainfall"].idxmax()]
+    driest_month = monthly_rainfall.loc[monthly_rainfall["rainfall"].idxmin()]
+
+    wettest_season = season_summary.loc[season_summary["rainfall"].idxmax()]
+    driest_season = season_summary.loc[season_summary["rainfall"].idxmin()]
+
+
+
+    st.subheader("💡 Rainfall Insights")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.success(
+            f"""
+    **Wettest State:** {wettest_state['state_name']}
+    ({wettest_state['rainfall']:.1f} mm)
+
+    **Wettest Month:** {wettest_month['month']}
+    ({wettest_month['rainfall']:.1f} mm)
+
+    **Wettest Season:** {wettest_season['season']}
+    ({wettest_season['rainfall']:.1f} mm)
+    """
+        )
+
+    with col2:
+        st.warning(
+            f"""
+    **Driest State:** {driest_state['state_name']}
+    ({driest_state['rainfall']:.1f} mm)
+
+    **Driest Month:** {driest_month['month']}
+    ({driest_month['rainfall']:.1f} mm)
+
+    **Driest Season:** {driest_season['season']}
+    ({driest_season['rainfall']:.1f} mm)
+    """
+    )
