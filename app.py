@@ -1,5 +1,5 @@
 from dashboard.utils.load_data import load_data
-from dashboard.pages import geographic, rainfall
+from dashboard.pages import geographic, rainfall, temperature, relationship
 import streamlit as st
 
 st.set_page_config(
@@ -72,7 +72,7 @@ if page == "🏠 Overview":
 
     col2.metric(
         "Average Rainfall (mm)",
-        f"{filtered_df['rainfall'].mean()*100:.2f} "
+        f"{filtered_df['rainfall'].mean():.2f} "
     )
 
     col3.metric(
@@ -103,6 +103,10 @@ elif page == "🗺 Geographic Analysis":
 
 elif page == "🌧 Rainfall Analysis":
     rainfall.show(filtered_df)
+elif page == "🌡 Temperature Analysis":
+    temperature.show(filtered_df)
+elif page == "📈 Relationships":
+    relationship.show(filtered_df)
 
 
 
