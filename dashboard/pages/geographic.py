@@ -31,7 +31,7 @@ def show(filtered_df):
     .reset_index()
     )
 
-    state_map["Rainfall"] *= 100
+    
 
     
 
@@ -210,4 +210,109 @@ def show(filtered_df):
         )
 
     
-   
+    st.subheader("📋 State-wise Geographic Summary")
+
+    geo_summary = (
+    filtered_df
+    .groupby("state_name", as_index=False)
+    .agg(
+        rainfall=("rainfall", "mean"),
+        avg_temp=("avg_temp", "mean"),
+        elevation=("elevation", "mean")
+    )
+    )
+
+    geo_summary = geo_summary.round(1)
+
+    geo_summary = geo_summary.rename(
+    columns={
+        "state_name": "State",
+        "rainfall": "Avg Rainfall (mm)",
+        "avg_temp": "Avg Temperature (°C)",
+        "elevation": "Elevation (m)"
+    }
+    )
+
+    geo_summary = geo_summary.sort_values(
+    "Avg Rainfall (mm)",
+    ascending=False
+    )
+
+    styled_table = (
+    geo_summary.style
+    .format({
+        "Avg Rainfall (mm)": "{:.1f}",
+        "Avg Temperature (°C)": "{:.1f}",
+        "Elevation (m)": "{:.0f}"
+    })
+    .background_gradient(
+        subset=["Avg Rainfall (mm)"],
+        cmap="Blues"
+    )
+    .background_gradient(
+        subset=["Avg Temperature (°C)"],
+        cmap="Oranges"
+    )
+    .background_gradient(
+        subset=["Elevation (m)"],
+        cmap="Greens"
+    )
+    )
+
+    st.dataframe(
+    styled_table,
+    use_container_width=True
+    )
+
+    st.info(
+    "This table summarizes the average rainfall, average temperature, and average elevation for each state. "
+    "It complements the choropleth map by allowing quick comparison of key geographic and climatic characteristics across India."
+    )
+    
+
+    wettest = geo_summary.loc[
+    geo_summary["Avg Rainfall (mm)"].idxmax()
+    ]
+
+    driest = geo_summary.loc[
+        geo_summary["Avg Rainfall (mm)"].idxmin()
+    ]
+
+    highest = geo_summary.loc[
+        geo_summary["Elevation (m)"].idxmax()
+    ]
+
+    lowest = geo_summary.loc[
+        geo_summary["Elevation (m)"].idxmin()
+    ]
+
+    st.subheader("💡 Geographic Insights")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.success(
+            f"""
+    ### 🌧 Rainfall Highlights
+
+    **Wettest State:** {wettest['State']}
+    ({wettest['Avg Rainfall (mm)']:.1f} mm)
+
+    **Driest State:** {driest['State']}
+    ({driest['Avg Rainfall (mm)']:.1f} mm)
+    """
+        )
+
+
+    with col2:
+        st.info(
+            f"""
+    ### ⛰ Geographic Highlights
+
+    **Highest Elevation:** {highest['State']}
+    ({highest['Elevation (m)']:.0f} m)
+
+    **Lowest Elevation:** {lowest['State']}
+    ({lowest['Elevation (m)']:.0f} m)
+    """
+        )
