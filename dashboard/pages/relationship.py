@@ -114,47 +114,6 @@ def show(filtered_df):
     "Darker cells indicate higher average rainfall, making seasonal rainfall patterns easy to compare."
     )
 
-    st.subheader("📋 State-wise Weather Summary")
-
-    pivot = pd.pivot_table(
-        filtered_df,
-        index="state_name",
-        values=[
-           "rainfall",
-           "avg_temp",
-           "max_temp",
-           "min_temp"
-        ],
-        aggfunc={
-        "rainfall": "mean",
-        "avg_temp": "mean",
-        "max_temp": "max",
-        "min_temp": "min"
-        }
-        ).round(1)
-
-    pivot = pivot.rename(
-    columns={
-        "rainfall": "Avg Rainfall (mm)",
-        "avg_temp": "Avg Temp (°C)",
-        "max_temp": "Max Temp (°C)",
-        "min_temp": "Min Temp (°C)"
-    }
-    )
-
-    pivot = pivot.style.format("{:.1f}") \
-    .background_gradient(cmap="ocean", axis=0)
-
-    st.dataframe(
-            pivot,
-            use_container_width=True
-        )
-
-    st.info(
-    "This summary table provides key weather statistics for each state. "
-    "It includes average rainfall, average temperature, highest recorded maximum temperature, "
-    "and lowest recorded minimum temperature, allowing quick comparison of long-term weather patterns across states."
-    )
 
     st.subheader("🌧 Rainfall vs Average Temperature")
 
