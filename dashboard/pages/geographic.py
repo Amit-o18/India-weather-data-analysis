@@ -33,8 +33,6 @@ def show(filtered_df):
 
     
 
-    
-
     geo_states = []
 
     for feature in india_map["features"]:
@@ -65,9 +63,6 @@ def show(filtered_df):
 
     missing = map_df[map_df["Rainfall"].isna()]
 
-    
-
-   
 
     map_df["Status"] = map_df["Rainfall"].apply(
     lambda x: "Available" if pd.notna(x) else "No Data"
@@ -81,6 +76,32 @@ def show(filtered_df):
     map_df["Records"] = map_df["Records"].fillna(0).astype(int)
 
     map_df["Rainfall"] = map_df["Rainfall"].round(1)
+    
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.metric(
+            "🌧 Avg Rainfall",
+            f"{map_df['Rainfall'].mean():.1f} mm"
+        )
+
+    with col2:
+        st.metric(
+            "🌡 Avg Temperature",
+            f"{map_df['Temperature'].mean():.1f} °C"
+        )
+
+    with col3:
+        st.metric(
+            "🗺 States / UTs",
+            map_df.shape[0]
+        )
+
+    with col4:
+        st.metric(
+            "📄 Records",
+            f"{filtered_df.shape[0]:,}"
+        )
 
 
     
@@ -183,31 +204,6 @@ def show(filtered_df):
     st.plotly_chart(fig, use_container_width=True)
 
 
-    col1, col2, col3, col4 = st.columns(4)
-
-    with col1:
-        st.metric(
-            "🌧 Avg Rainfall",
-            f"{map_df['Rainfall'].mean():.1f} mm"
-        )
-
-    with col2:
-        st.metric(
-            "🌡 Avg Temperature",
-            f"{map_df['Temperature'].mean():.1f} °C"
-        )
-
-    with col3:
-        st.metric(
-            "🗺 States / UTs",
-            map_df.shape[0]
-        )
-
-    with col4:
-        st.metric(
-            "📄 Records",
-            f"{filtered_df.shape[0]:,}"
-        )
 
     
     st.subheader("📋 State-wise Geographic Summary")
