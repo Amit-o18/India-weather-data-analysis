@@ -63,13 +63,11 @@ st.sidebar.markdown("""
 """, unsafe_allow_html=True)
 
 st.sidebar.markdown("""
-<h3 style="margin-bottom:8px;">
-<i class="bi bi-compass-fill"></i> Navigation
-</h3>
+<h3><i class="bi bi-compass-fill"></i> Navigation</h3>
 """, unsafe_allow_html=True)
 
 page = st.sidebar.radio(
-    "",
+    "Navigation",
     [
         "🏠 Overview",
         "📋 Dataset",
@@ -77,7 +75,8 @@ page = st.sidebar.radio(
         "🌧 Rainfall Analysis",
         "🌡 Temperature Analysis",
         "📈 Relationships"
-    ]
+    ],
+    label_visibility="collapsed"
 )
 
 year = st.sidebar.slider(
@@ -170,7 +169,7 @@ elif page == "📈 Relationships":
     relationship.show(filtered_df)
 
 elif page == "📋 Dataset":
-    dataset.show(raw_df, clean_df, filtered_df)
+    dataset.show(raw_df, clean_df)
 
 
 
