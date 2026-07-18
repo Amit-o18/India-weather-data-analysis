@@ -4,8 +4,8 @@ import pandas as pd
 import streamlit as st
 
 
-raw_df = pd.read_csv("C:\\Users\\hiii\\OneDrive\\Desktop\\O7\\Python\\Project\\data\\india_weather_rainfall_data.csv")
-clean_df = pd.read_csv("C:\\Users\\hiii\\OneDrive\\Desktop\\O7\\Python\\Project\\data\\cleaned_weather_data.csv")
+raw_df = pd.read_csv("data/india_weather_rainfall_data.csv")
+clean_df = pd.read_csv("data/cleaned_weather_data.csv")
 
 
 st.set_page_config(
@@ -170,7 +170,7 @@ elif page == "📈 Relationships":
     relationship.show(filtered_df)
 
 elif page == "📋 Dataset":
-    dataset.show(raw_df, clean_df)
+    dataset.show(raw_df, clean_df, filtered_df)
 
 
 
